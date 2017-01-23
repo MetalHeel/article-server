@@ -12,10 +12,8 @@ class App extends Component {
 
   doTheGet() {
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", "http://localhost:3000/articles", false);
-    xmlHttp.send(null);
-
-    return xmlHttp.responseText;
+    xmlHttp.open("GET", "http://localhost:3000/articles/", true);
+    xmlHttp.send();
   }
 }
 
