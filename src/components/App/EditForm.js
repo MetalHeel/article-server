@@ -28,7 +28,7 @@ export class EditForm extends Component {
           </ul>
         </div>
         <button className="Submit" onClick={() => this.props.onSubmit(this.state.title, this.state.author, this.state.content)}>Submit</button>
-        <button className="Cancel">Cancel</button>
+        <button className="Cancel" onClick={() => this.props.onCancel()}>Cancel</button>
       </div>
 	  );
 	}

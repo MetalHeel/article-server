@@ -40,7 +40,7 @@ class App extends Component {
     }
 
     if(this.state.mode === this.Modes.ADD || this.state.mode === this.Modes.EDIT)
-      editForm = <EditForm onSubmit={(title, author, content) => this.submitForm(title, author, content)} />;
+      editForm = <EditForm onSubmit={(title, author, content) => this.submitForm(title, author, content)} onCancel={() => this.cancelEdit()} />;
 
     return (
       <div>
@@ -90,6 +90,13 @@ class App extends Component {
 
     HttpRequest.post("http://localhost:3000/articles", this.createArticle(title, author, content), function() {
       self.updateArticles();
+    });
+  }
+
+  cancelEdit() {
+    this.setState({
+      mode: this.Modes.STANDARD,
+      articles: this.state.articles
     });
   }
 
