@@ -48,7 +48,7 @@ class App extends Component {
       editForm = <EditForm onSubmit={(title, author, content) => this.submitForm(title, author, content)} onCancel={() => this.cancelEdit()} />;
 
     if(this.state.mode === this.Modes.VIEW)
-      view = <View article={this.state.currentSelection} onBack={() => this.goBack()}/>
+      view = <View article={this.state.currentSelection} onDelete={() => this.deleteArticle()} onBack={() => this.goBack()} />
 
     return (
       <div>
@@ -129,6 +129,20 @@ class App extends Component {
         currentSelection: this.state.currentSelection
       });
     }
+  }
+
+  deleteArticle() {
+    this.setState({
+      mode: this.Modes.STANDARD,
+      articles: this.state.articles,
+      currentSelection: null
+    });
+
+    var self = this;
+
+    HttpRequest.delete("http://localhost:3000/articles/" + this.state.currentSelection.title, function() {
+      self.updateArticles();
+    });
   }
 
   goBack() {

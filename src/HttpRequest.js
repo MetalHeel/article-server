@@ -28,8 +28,12 @@ export class HttpRequest {
     xmlHttp.send(JSON.stringify(body));
 	}
 
-	static delete(url) {
+	static delete(url, cb) {
 		var xmlHttp = new XMLHttpRequest();
+		xmlHttp.onreadystatechange = function() {
+			if(xmlHttp.readyState === XMLHttpRequest.DONE)
+				cb();
+		};
     xmlHttp.open("DELETE", url, true);
     xmlHttp.send();
 	}

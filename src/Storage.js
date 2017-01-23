@@ -47,9 +47,11 @@ module.exports = {
 
 	remove: function(title)
 	{
-		if(articles[oldTitle] !== null)
+		var articles = storage.getItemSync('articles');
+
+		if(articles[title] !== null)
 		{
-			delete articles[oldTitle];
+			delete articles[title];
 			storage.setItem('articles', articles);
 		}
 	}
