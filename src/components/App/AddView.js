@@ -5,7 +5,7 @@ export class AddView extends Component {
 		return (
 			<div>
 	      <button className="Add" onClick={() => this.props.onAdd()}>Add</button>
-	      <button className="View">View</button>
+	      <button className="View" onClick={() => this.props.onView()}>View</button>
 	    </div>
 	  );
 	}

@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { ArticleList } from './ArticleList.js';
 import { AddView } from './AddView.js';
 import { EditForm } from './EditForm.js';
+import { View } from './View.js';
 import { HttpRequest } from '../../HttpRequest.js';
 
 import './index.css';
@@ -20,7 +21,8 @@ class App extends Component {
 
     this.state = {
       mode: this.Modes.STANDARD,
-      articles: {}
+      articles: {},
+      currentSelection: null
     };
 
     this.updateArticles();
@@ -31,16 +33,22 @@ class App extends Component {
     var articleList = null;
     var addView = null;
     var editForm = null;
+    var view = null;
 
     if(this.state.mode === this.Modes.STANDARD)
     {
       header = <h1>Check Out These Articles!</h1>;
-      articleList = <ArticleList articles={this.state.articles} />;
-      addView = <AddView onAdd={() => this.showAddForm()} />;
+      articleList = <ArticleList articles={this.state.articles}
+        rowClickCallback={(selection) => this.changeSelection(selection)}
+        selection={this.state.currentSelection} />;
+      addView = <AddView onAdd={() => this.showAddForm()} onView={() => this.showView()} />;
     }
 
     if(this.state.mode === this.Modes.ADD || this.state.mode === this.Modes.EDIT)
       editForm = <EditForm onSubmit={(title, author, content) => this.submitForm(title, author, content)} onCancel={() => this.cancelEdit()} />;
+
+    if(this.state.mode === this.Modes.VIEW)
+      view = <View article={this.state.currentSelection} onBack={() => this.goBack()}/>
 
     return (
       <div>
@@ -48,12 +56,12 @@ class App extends Component {
         {articleList}
         {addView}
         {editForm}
+        {view}
       </div>
     );
   }
 
   updateArticles() {
-    var articles = null;
     var self = this;
 
     HttpRequest.get("http://localhost:3000/articles", function(response) {
@@ -66,24 +74,35 @@ class App extends Component {
     });
   }
 
+  changeSelection(selection) {
+    this.setState({
+      allMovies: this.state.allMovies,
+      mode: this.state.mode,
+      currentSelection: selection
+    });
+  }
+
   showAddForm() {
     this.setState({
       mode: this.Modes.ADD,
-      articles: this.state.articles
+      articles: this.state.articles,
+      currentSelection: null
     });
   }
 
   showEditForm() {
     this.setState({
       mode: this.Modes.EDIT,
-      articles: this.state.articles
+      articles: this.state.articles,
+      currentSelection: this.state.currentSelection
     });
   }
 
   submitForm(title, author, content) {
     this.setState({
       mode: this.Modes.STANDARD,
-      articles: this.state.articles
+      articles: this.state.articles,
+      currentSelection: this.state.currentSelection
     });
 
     var self = this;
@@ -96,7 +115,27 @@ class App extends Component {
   cancelEdit() {
     this.setState({
       mode: this.Modes.STANDARD,
-      articles: this.state.articles
+      articles: this.state.articles,
+      currentSelection: null
+    });
+  }
+
+  showView() {
+    if(this.state.currentSelection !== null)
+    {
+      this.setState({
+        mode: this.Modes.VIEW,
+        articles: this.state.articles,
+        currentSelection: this.state.currentSelection
+      });
+    }
+  }
+
+  goBack() {
+    this.setState({
+      mode: this.Modes.STANDARD,
+      articles: this.state.articles,
+      currentSelection: this.state.currentSelection
     });
   }
 

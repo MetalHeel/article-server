@@ -15,12 +15,20 @@ export class ArticleList extends Component {
     );
 	}
 
-	// Todo: There needs to be some sort of unique key.  Titles may collide.
 	renderBody() {
 		var self = this;
+		const rowClickCallback = this.props.rowClickCallback;
+		const selection = this.props.selection;
+
 		return Object.keys(this.props.articles).map(function(key, index) {
+			const highlight = { backgroundColor: "yellow" };
+
 			var article = self.props.articles[key];
-      return <tr key={article.title}><td><h2>{article.title}</h2><p>by {article.author}</p></td></tr>;
+
+			if(selection != null && selection.title.localeCompare(article.title) === 0)
+				return <tr key={article.title} onClick={() => rowClickCallback(article)} style={highlight}><td><h2>{article.title}</h2><p>by {article.author}</p></td></tr>;
+			else
+      	return <tr key={article.title} onClick={() => rowClickCallback(article)}><td><h2>{article.title}</h2><p>by {article.author}</p></td></tr>;
     });
 	}
 }
