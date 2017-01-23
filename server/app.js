@@ -15,11 +15,19 @@ app.post('/articles', (req, res) => {
 	storage.create(req.body);
 });
 
+// Read All
+app.get('/articles', (req, res) => {
+	var articles = storage.getAll();
+
+	res.setHeader('Content-Type', 'application/json');
+  res.send(JSON.stringify(articles));
+});
+
 // Read
 app.get('/articles/:title', (req, res) => {
 	var article = storage.get(req.params.title);
 
-	// Todo: then do something with this article.
+	res.send(article);
 });
 
 // Update
