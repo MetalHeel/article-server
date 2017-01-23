@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 export class EditForm extends Component {
-	constructor() {
+  constructor() {
     super();
 
     this.state = {
@@ -15,9 +15,9 @@ export class EditForm extends Component {
     this.handleContentChange = this.handleContentChange.bind(this);
   }
 
-	// Todo: Add tags.
-	render() {
-		var title = "";
+  // Todo: Add tags.
+  render() {
+    var title = "";
     var author = "";
     var content = "";
 
@@ -31,8 +31,8 @@ export class EditForm extends Component {
     // For some reason I can't get the props in the constructor?  Also, this works??
     this.refreshState(title, author, content);
 
-		return (
-			<div>
+    return (
+      <div>
         <div>
           <ul>
             <li>Title: <input type="text" name="title" onChange={this.handleTitleChange} defaultValue={title} /></li>
@@ -44,10 +44,10 @@ export class EditForm extends Component {
         <button className="Submit" onClick={() => this.props.onSubmit(this.state.title, this.state.author, this.state.content)}>Submit</button>
         <button className="Cancel" onClick={() => this.props.onCancel()}>Cancel</button>
       </div>
-	  );
-	}
+    );
+  }
 
-	refreshState(title, author, content) {
+  refreshState(title, author, content) {
     var oldState = this.state;
 
     if(oldState.title === null)
@@ -58,7 +58,7 @@ export class EditForm extends Component {
       oldState.content = content;
   }
 
-	handleTitleChange(e) {
+  handleTitleChange(e) {
     this.setState({
       title: e.target.value,
       author: this.state.author,

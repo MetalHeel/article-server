@@ -12,35 +12,35 @@ app.use(express.static(path.resolve(__dirname, '..', 'build')));
 
 // Create
 app.post('/articles', (req, res) => {
-	storage.create(req.body);
-	res.send("Done");
+  storage.create(req.body);
+  res.send("Done");
 });
 
 // Read All
 app.get('/articles', (req, res) => {
-	var articles = storage.getAll();
+  var articles = storage.getAll();
 
-	res.setHeader('Content-Type', 'application/json');
+  res.setHeader('Content-Type', 'application/json');
   res.send(JSON.stringify(articles));
 });
 
 // Read
 app.get('/articles/:title', (req, res) => {
-	var article = storage.get(req.params.title);
+  var article = storage.get(req.params.title);
 
-	res.send(JSON.stringify(article));
+  res.send(JSON.stringify(article));
 });
 
 // Update
 app.put('/articles/:title', (req, res) => {
-	storage.update(req.params.title, req.body);
-	res.send("Done");
+  storage.update(req.params.title, req.body);
+  res.send("Done");
 });
 
 // Delete
 app.delete('/articles/:title', (req, res) => {
-	storage.remove(req.params.title);
-	res.send("Done");
+  storage.remove(req.params.title);
+  res.send("Done");
 });
 
 module.exports = app;
