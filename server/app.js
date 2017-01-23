@@ -28,7 +28,7 @@ app.get('/articles', (req, res) => {
 app.get('/articles/:title', (req, res) => {
 	var article = storage.get(req.params.title);
 
-	res.send(article);
+	res.send(JSON.stringify(article));
 });
 
 // Update
