@@ -13,6 +13,7 @@ app.use(express.static(path.resolve(__dirname, '..', 'build')));
 // Create
 app.post('/articles', (req, res) => {
 	storage.create(req.body);
+	res.send("Done");
 });
 
 // Read All
@@ -38,6 +39,7 @@ app.put('/articles/:title', (req, res) => {
 // Delete
 app.delete('/articles/:title', (req, res) => {
 	storage.remove(req.params.title);
+	res.send("Done");
 });
 
 module.exports = app;
