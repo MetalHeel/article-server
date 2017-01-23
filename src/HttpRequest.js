@@ -21,8 +21,12 @@ export class HttpRequest {
     xmlHttp.send();
 	}
 
-	static put(url, body) {
+	static put(url, body, cb) {
 		var xmlHttp = new XMLHttpRequest();
+		xmlHttp.onreadystatechange = function() {
+			if(xmlHttp.readyState === XMLHttpRequest.DONE)
+				cb();
+		};
     xmlHttp.open("PUT", url, true);
     xmlHttp.setRequestHeader("Content-Type", "application/json");
     xmlHttp.send(JSON.stringify(body));

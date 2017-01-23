@@ -34,6 +34,7 @@ app.get('/articles/:title', (req, res) => {
 // Update
 app.put('/articles/:title', (req, res) => {
 	storage.update(req.params.title, req.body);
+	res.send("Done");
 });
 
 // Delete

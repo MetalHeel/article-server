@@ -31,7 +31,9 @@ module.exports = {
 	},
 
 	update: function(oldTitle, article) {
-		var articles = storage.getItem('articles').then(function(value) {
+		storage.getItem('articles').then(function(value) {
+			var articles = value;
+
 			if(articles[oldTitle] !== null)
 			{
 				delete articles[oldTitle];

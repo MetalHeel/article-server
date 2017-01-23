@@ -45,10 +45,19 @@ class App extends Component {
     }
 
     if(this.state.mode === this.Modes.ADD || this.state.mode === this.Modes.EDIT)
-      editForm = <EditForm onSubmit={(title, author, content) => this.submitForm(title, author, content)} onCancel={() => this.cancelEdit()} />;
+    {
+      editForm = <EditForm
+        initialEntries={this.state.currentSelection}
+        onSubmit={(title, author, content) => this.submitForm(title, author, content)}
+        onCancel={() => this.cancelEdit()} />;
+    }
 
     if(this.state.mode === this.Modes.VIEW)
-      view = <View article={this.state.currentSelection} onDelete={() => this.deleteArticle()} onBack={() => this.goBack()} />
+    {
+      view = <View article={this.state.currentSelection}
+        onDelete={() => this.deleteArticle()} onBack={() => this.goBack()} 
+        onEdit={() => this.showEditForm()} />
+    }
 
     return (
       <div>
@@ -102,14 +111,24 @@ class App extends Component {
     this.setState({
       mode: this.Modes.STANDARD,
       articles: this.state.articles,
-      currentSelection: this.state.currentSelection
+      currentSelection: null
     });
 
     var self = this;
 
-    HttpRequest.post("http://localhost:3000/articles", this.createArticle(title, author, content), function() {
-      self.updateArticles();
-    });
+    if(this.state.mode === this.Modes.ADD)
+    {
+      HttpRequest.post("http://localhost:3000/articles", this.createArticle(title, author, content), function() {
+        self.updateArticles();
+      });
+    }
+
+    if(this.state.mode === this.Modes.EDIT)
+    {
+      HttpRequest.put("http://localhost:3000/articles/" + this.state.currentSelection.title, this.createArticle(title, author, content), function() {
+        self.updateArticles();
+      });
+    }
   }
 
   cancelEdit() {
